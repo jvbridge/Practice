@@ -54,18 +54,26 @@ function solve(nums, operations){
         }
     }
 
+    // Variable declarations to make jshint not complain
+    var opsBefore;
+    var opsAfter;
+    var numsBefore;
+    var numsAfter;
+    var curr;
+    var check;
+    
     // two copies of nearly identicle code to make sure  of order of operations
-    var check = operations.findIndex(element => element == "*" || element == "/");
+    check = operations.findIndex(element => element == "*" || element == "/");
     if (check >= 0){
         
         // solve this current one
-        var curr = solve([nums[check], nums[check+1]],[operations[check]]);
+        curr = solve([nums[check], nums[check+1]],[operations[check]]);
         
         // split operations and numbers into before and after
-        var opsBefore = operations.slice(0,check);
-        var opsAfter = operations.slice(check + 1,operations.length);
-        var numsBefore = nums.slice(0,check);
-        var numsAfter = nums.slice(check + 2, nums.length);
+        opsBefore = operations.slice(0,check);
+        opsAfter = operations.slice(check + 1,operations.length);
+        numsBefore = nums.slice(0,check);
+        numsAfter = nums.slice(check + 2, nums.length);
         
         // add out solved answer onto the array
         numsBefore.push(curr);
@@ -77,13 +85,12 @@ function solve(nums, operations){
     // same as previous if, but for addition and subtraction
     check =  operations.findIndex(element => element == "+" || element == "-");
     if (check >= 0){
-        var opsBefore = operations.slice(0,check);
-        var curr = solve([nums[check], nums[check+1]],[operations[check]]);
-        var opsAfter = operations.slice(check + 1,operations.length);
-        var numsBefore = nums.slice(0,check);
-        var numsAfter = nums.slice(check + 2, nums.length);
+        opsBefore = operations.slice(0,check);
+        curr = solve([nums[check], nums[check+1]],[operations[check]]);
+        opsAfter = operations.slice(check + 1,operations.length);
+        numsBefore = nums.slice(0,check);
+        numsAfter = nums.slice(check + 2, nums.length);
 
-        // add out solved answer onto the array
         numsBefore.push(curr);
 
         return solve(numsBefore.concat(numsAfter), opsBefore.concat(opsAfter));
@@ -91,8 +98,6 @@ function solve(nums, operations){
     throw new Error("Got to the end of recursion");
 
 }
-
-
 
 function test(func){
     var inputs = [
