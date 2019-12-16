@@ -1,13 +1,12 @@
-console.log("Bloomberg 12/4/19: \n");
-
 // Put the actual testing here for ease of access
-test(bloomberg);
-test(bloombergJS);
+test(distanceCalc);
+test(distanceCalcJS);
 
 /**
  * Given a string S and a character C.
  * 
- * Return an array of integers representing the shortest distance from the character C to each character in the string.
+ * Return an array of integers representing the shortest distance from the 
+ * character C to each character in the string.
  * 
  * Input: S = "helloworld", C = 'o'
  * Output: [4, 3, 2, 1, 0, 1, 0, 1, 2, 3]
@@ -20,7 +19,7 @@ test(bloombergJS);
  * @param {String} C character to find
  * @returns {Array} Strings
  */
-function bloomberg(S, C){
+function distanceCalc(S, C){
     // return array
     var ret = [];
     
@@ -53,7 +52,7 @@ function bloomberg(S, C){
  * @param {String} c
  * @returns {Array} 
  */
-function bloombergJS(s,c){
+function distanceCalcJS(s,c){
     // Array to return
     var ret = [];
     // Array of places we found the character

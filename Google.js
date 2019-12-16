@@ -1,4 +1,4 @@
-test(jump);
+// Devmates.co questions asked by Google
 
 /**
  * Given an array of non-negative integers, you are initially positioned at the 
@@ -31,6 +31,16 @@ function jump(arr){
     // pass it off to the recursive helper function
     return jumpHelper(arr, curr, visited);
 }
+
+// tester
+jump.test = function(){
+    console.log("Testing function: Jump");
+    var inputs = [
+        [2,3,1,1,4], // true
+        [3,2,1,0,4]  // false
+    ];
+    inputs.forEach(element => console.log("OUTPUT:" + jump(element)));
+};
 
 /**
  * 
@@ -108,9 +118,7 @@ function jumpHelper(arr, curr, visited){
  * @param {Array} num2 
  * @returns {Array} ret
  */
-function addOne(num1, num2){
-    ret = [];
-    
+function subtract(num1, num2){  
     if (num2.length > num1.length){
         console.error("num2 is larger than num1, returning null");
         return null;
@@ -121,54 +129,44 @@ function addOne(num1, num2){
         return num1;
     }
 
-    // carry flag
-    var carry = false;
+    // start by returning all of the front of num1
+    var ret = num1.slice(0, num1.length - num2.length);
+
     // current number to subtract, will be assigned value
     var curr = null;
 
-    // iterate from back to front
-    for (i = 0; i < num2.length; i++){
-        // it's easier to convert to real position here than in the loop
-        var num1Pos = num1.length - (i + 1); 
-        var num2Pos = num2.length - (i + 1);
-
-        // actual subtraction
-        curr = num1[num1Pos] - num2[num2Pos];
+    // iterate from front index of subtraction to the end
+    for (var i = 0; i < num2.length; i++){
+        // index we are currently in relative to num1
+        var num1Pos = num1.length - num2.length + i; 
         
-        // check if we need to carry or have carried
-        if (carry) {
-            curr--;
-            carry = false;
-        }
+        // doing the subtraction of the current digit
+        curr = num1[num1Pos] - num2[i];
+
+        // carrying if needed
         if (curr < 0){
             curr += 10;
-            carry = true;
+            var carry = true;
+            for(var n = ret.length - 1; carry; n--){
+                ret[n] -= 1;
+                if (ret[n] < 0){
+                    ret[n] += 10;
+                } else {carry = false;}
+            }
         }
-        ret.unshift(curr);
+        ret.push(curr);
     }
 
-    // okay we reached the end of num2, but we might still need to keep going
-    for (i = num2.length; i < num1.length; i++){
-        // keeping the same convention as before for logical consistency
-        var curPos = num1.length - (i + 1);
-        curr = num1[curPos];
-
-        if (carry){
-            curr--;
-            carry = false;
-        }
-        if (curr < 0){
-            curr += 10;
-            carry = true;
-        }
-        ret.unshift(curr);
+    // helper local function for carrying
+    function carryFunc(ret){
+        
     }
-    
 
     // remove leading 0's from ret
     for(i=0; i < ret.length; i++){
         if (ret[i] == 0) {
             ret.shift();
+            i--; // because ret is 1 shorter now
         } else {
             break;
         }
@@ -178,13 +176,18 @@ function addOne(num1, num2){
     return ret;
 }
 
-function test(func){
-    console.log("testing function: " + func.name);
-
+subtract.test = function(){
+    console.log("Testing function: subtract");
+    
     var inputs = [
-        [2,3,1,1,4], // true
-        [3,2,1,0,4]  // false
+        [[3, 4, 5], [2,2,1]], // [1, 2, 4]
+        [[1, 0], [9]],   // [1]
+        [[9, 3, 1], [8, 4, 1]] // [9,0]
     ];
 
-    inputs.forEach(element => console.log("OUTPUT:" + func(element)));
-}
+    inputs.forEach(element => console.log("OUTPUT:" + subtract(element[0], element[1])));
+};
+
+// testing
+jump.test();
+subtract.test();
