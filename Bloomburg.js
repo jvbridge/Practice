@@ -1,7 +1,3 @@
-// Put the actual testing here for ease of access
-test(distanceCalc);
-test(distanceCalcJS);
-
 /**
  * Given a string S and a character C.
  * 
@@ -45,8 +41,23 @@ function distanceCalc(S, C){
     return ret;
 }
 
+distanceCalc.test = function(){
+    console.log("testing function: distanceCalc");
+
+    var input = [
+        ["helloworld", 'o'], // [4, 3, 2, 1, 0, 1, 0, 1, 2, 3]
+        ["bloomberg", 'o'] // [2, 1, 0, 0, 1, 2, 3, 4, 5]
+    ];
+
+    input.forEach(function(value, index){
+        console.log("input: \"" + value[0] + "\", \"" + value[1]+ "\"");
+        var ret = distanceCalc(value[0], value[1]);
+        console.log("output: [" + ret + "]\n\n");
+    });
+};
+
 /**
- * Like bloomberg() but takes advantage of JS as opposed to doing it all with
+ * Like distanceCalc() but takes advantage of JS as opposed to doing it all with
  * loops. More robust and bugproof.
  * @param {String} s 
  * @param {String} c
@@ -71,8 +82,8 @@ function distanceCalcJS(s,c){
         return ret;
     }
 
-    // 
-    for (i = 0; i < s.length; i++){
+    //  iterate over array, at each point count the distance
+    for (var i = 0; i < s.length; i++){
         dist = s.length;
         for (t = 0; t < pos.length; t++){
             var posCurr = Math.abs(i - pos[t]);
@@ -86,37 +97,20 @@ function distanceCalcJS(s,c){
     return ret;
 }
 
-/**
- * This is a shortcut to test both quickly
- * @param {Function} func 
- */
-function test(func){
-    console.log("testing function: " + func.name);
+distanceCalcJS.test = function(){
+    console.log("testing function: distanceCalcJS");
 
-    var s = "";
-    var c = '';
+    var input = [
+        ["helloworld", 'o'], // [4, 3, 2, 1, 0, 1, 0, 1, 2, 3]
+        ["bloomberg", 'o'] // [2, 1, 0, 0, 1, 2, 3, 4, 5]
+    ];
 
-    var inputS1 = "helloworld";
-    var inputC1 = 'o';
-    var inputS2 = "bloomberg";
-    var inputC2 = 'o';
+    input.forEach(function(value, index){
+        console.log("input: \"" + value[0] + "\", \"" + value[1]+ "\"");
+        var ret = distanceCalcJS(value[0], value[1]);
+        console.log("output: [" + ret + "]\n\n");
+    });
+};
 
-    s = inputS1;
-    c = inputC1;
-
-
-    console.log("input: \"" + s + "\", \"" + c+ "\"");
-
-    var ret =  func(s,c);
-
-    console.log("output: [" + ret + "]\n\n");
-
-    s = inputS2;
-    c = inputC2;
-
-    console.log("input: \"" + s + "\", \"" + c+ "\"");
-
-    ret =  func(s,c);
-
-    console.log("output: [" + ret + "]\n\n");
-}
+distanceCalc.test();
+distanceCalcJS.test();
