@@ -1,11 +1,100 @@
-test(google);
+test(jump);
 
 /**
- * Given a non-empty array of digits representing a non-negative integer and each element in the array contain a single digit.
+ * Given an array of non-negative integers, you are initially positioned at the 
+ * first index of the array.
+ * 
+ * Each element in the array represents your maximum jump length at that 
+ * position.
+ * 
+ * Determine if you are able to reach the last index.
+ * 
+ * Input: [2,3,1,1,4]
+ * Output: true
+ * Why?
+ * Jump 1 step from index 0 to 1, then 3 steps to the last index.
+ * Input: [3,2,1,0,4]
+ * Output: false
+ * Why?
+ * You will always arrive at index 3 no matter what. 
+ * Its maximum jump length is 0, 
+ * which makes it impossible to reach the last index.
+ * 
+ * @param {Number[]} arr 
+ * @returns {boolean}
+ */
+function jump(arr){
+    // initializing some values for our starting case
+    var curr = 0;
+    var visited = Array(arr.length).fill(false);
+    visited[0] = true;
+    // pass it off to the recursive helper function
+    return jumpHelper(arr, curr, visited);
+}
+
+/**
+ * 
+ * @param {number[]} arr 
+ * @param {number} curr 
+ * @param {boolean[]} visited an array of places that have been visited
+ */
+function jumpHelper(arr, curr, visited){
+    // first check if we can get to the end from here
+    if (arr[curr] >= arr.length - (curr + 1))
+        return true;
+
+    // temp visited array to change from the current visited array
+    var tmpVisited = visited;
+    // array of indexes that can be visited from here
+    var toVisit = [];
+    
+    // figure out where to visit
+
+    // the value at the spot we are at
+    var currCount = arr[curr];
+    // place holder variables for going forward and backwards on the array
+    var tmpCurrForward = curr;
+    var tmpCurrBackward = curr;
+    // count down from the value going forward or back as appropriate
+    for (var i = currCount; i > 0; i--){
+        tmpCurrForward++;
+        tmpCurrBackward--;
+        
+        // check forward first, it can't go off the end so no safety if needed
+        if (!visited[tmpCurrForward]){
+            visited[tmpCurrForward] = true;
+            toVisit.push(tmpCurrForward);
+        }
+        
+        // if we ran of the end of the array, we are done with this loop
+        if(tmpCurrBackward < 0) continue;
+
+        // otherwise we should do it too
+        if(!visited[tmpCurrBackward]){
+            visited[tmpCurrBackward] = true;
+            toVisit.push(tmpCurrBackward);
+        }        
+    }
+
+    // recurse on the places where we are visiting
+    for(i = 0; i < toVisit.length; i++){
+        if(jumpHelper(arr, toVisit[i], tmpVisited))
+            return true;
+    }
+    // couldn't get a true to return with, oh well.
+    return false;
+}
+
+
+
+/**
+ * Given a non-empty array of digits representing a non-negative integer and 
+ * each element in the array contain a single digit.
  * 
  * Subtract two integers represented as array and return result as array.
  * 
- * You may assume the integer does not contain any leading zero, except the number 0 itself.
+ * You may assume the integer does not contain any leading zero, except the 
+ * number 0 itself.
  * 
  * Note: Converting to the integer and back to the array is not allowed.
  * 
@@ -19,7 +108,7 @@ test(google);
  * @param {Array} num2 
  * @returns {Array} ret
  */
-function google(num1, num2){
+function addOne(num1, num2){
     ret = [];
     
     if (num2.length > num1.length){
@@ -92,30 +181,10 @@ function google(num1, num2){
 function test(func){
     console.log("testing function: " + func.name);
 
-    var num1 = [];
-    var num2 = [];
+    var inputs = [
+        [2,3,1,1,4], // true
+        [3,2,1,0,4]  // false
+    ];
 
-    var inputNumOne1 = [3, 4, 5];
-    var inputNumTwo1 = [2,2,1];
-    var inputNumOne2 = [1, 0];
-    var inputNumTwo2 = [9];
-
-    num1 = inputNumOne1;
-    num2 = inputNumTwo1;
-
-
-    console.log("input: [" + num1 + "]", "[" + num2 + "]");
-
-    var ret =  func(num1,num2);
-
-    console.log("output: [" + ret + "]\n\n");
-
-    num1 = inputNumOne2;
-    num2 = inputNumTwo2;
-
-    console.log("input: [" + num1 + "]", "[" + num2 + "]");
-
-    ret =  func(num1,num2);
-
-    console.log("output: [" + ret + "]\n\n");
+    inputs.forEach(element => console.log("OUTPUT:" + func(element)));
 }
