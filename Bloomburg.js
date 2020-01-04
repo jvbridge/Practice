@@ -18,6 +18,7 @@
  * The total minimum cost is 10 + 30 + 50 + 20 = 110 
  * to have half the people interviewing in each city.
  * @param {Array[Number[]]} people 
+ * @returns {number} cost of the cheapest option
  */
 function flying(people){
     
@@ -38,7 +39,7 @@ function flying(people){
     while(cityB.length != cityA.length){
         var diffs = []; // array of differences
         var min; // index of lowest difference
-        
+        var tmp; // holding array 
         if (cityA.length > cityB.length){
             
             cityA.forEach(function(value){
@@ -48,8 +49,8 @@ function flying(people){
             min = diffs.indexOf(Math.min(...diffs));
 
             // move that element from city A to City B
-            var tmp = cityA.splice(min,1);
-        cityB.push(tmp[0]);
+            tmp = cityA.splice(min,1);
+            cityB.push(tmp[0]);
         } else {
             cityB.forEach(function(value){
                 diffs.push(people[value][0] - people[value][1]);
@@ -58,7 +59,7 @@ function flying(people){
             min = diffs.indexOf(Math.min(...diffs));
 
             // move that element from city B to City A
-            var tmp = cityB.splice(min,1);
+            tmp = cityB.splice(min,1);
             cityA.push(tmp[0]);
 
         } 

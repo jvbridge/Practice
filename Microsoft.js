@@ -17,6 +17,7 @@
  * Output: 4
  * Why?
  * (1 -> 5 -> 10 -> 14 -> 15)
+ * Author's note: 1 -> 3 -> 8 -> 12 -> 15 is also valid
  * @param {Array}  arr
  * @param {object} boosters
  */
@@ -53,22 +54,19 @@ function jumpMsHelper(arr, boosters, curr, path){
         return pathManip;
     }
     
-    
-
     // make the last entry empty so that we can use the same array in the loop
     pathManip.push(null);
+
+    var check = []; // array to see what the possible paths are 
 
     // edge case for if we are at 1 and there's a booster at 1
     if (curr == 1 && boosters[1]){
         pathManip[1] = boosters[1];
         check.push(jumpMsHelper(arr, boosters, boosters[1], pathManip));
-    }
-    
-    // array to see what the possible paths are 
-    var check = [];
+    } 
 
-    // check if we are in range of a booster, recur on it if we are
-    // don't recur on a booster on the current spot
+    // check if we are in range of a booster, recur on it if we are. 
+    // don't recur on a booster on the current spot, it's already checked
     for (var i = curr + 1; i <= curr + 4; i++){
         pathManip[pathManip.length - 1] = i; 
         if (boosters[i]){
@@ -77,6 +75,7 @@ function jumpMsHelper(arr, boosters, curr, path){
             check.push(jumpMsHelper(arr, boosters, boosters[i], tmp));    
         }
     }
+
     // also recur on the furthest we can jump as well
     pathManip[pathManip.length - 1] = curr + 4;
     check.push(jumpMsHelper(arr, boosters, curr + 4, pathManip));
