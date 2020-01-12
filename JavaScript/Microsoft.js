@@ -1,4 +1,4 @@
-//  Qustions from Devmates.co asked by Microsoft
+// sQustions from Devmates.co asked by Microsoft
 /**
  * Given an array containing numbers 1 to n where array[i] = i+1.
  * 
@@ -20,6 +20,7 @@
  * Author's note: 1 -> 3 -> 8 -> 12 -> 15 is also valid
  * @param {Array}  arr
  * @param {object} boosters
+ * @return {number}
  */
 function jumpMS(arr, boosters){
     console.log("Arr: ", arr);
