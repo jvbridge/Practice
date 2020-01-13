@@ -10,7 +10,7 @@ using namespace std;
 const int range = 4; // how far you can move in one jump
 
 /**
- * struct holding each booster, used
+ * struct holding each booster, used as a way to hold the data
  */ 
 struct Booster {
     int from;
@@ -33,10 +33,19 @@ string printPath(vector<int> path){
     return print;
 }
 
-/*
+/**
  * Helper function for recursion
+ * @param arr argument for the main function
+ * @param boosters argument for the main function
+ * @param curr where we are currently pointing at
+ * @param path our path so far. Initialized at 1
  */
-vector<int> jumpMsHelper(int arr, vector<Booster> boosters, int curr, vector<int> path){
+vector<int> jumpMsHelper(
+    int arr, 
+    vector<Booster> boosters,
+    int curr, 
+    vector<int> path 
+    ){
     // if we are done we can return this as the right path (two cases)
     if (curr == arr){
         return path;
@@ -66,7 +75,8 @@ vector<int> jumpMsHelper(int arr, vector<Booster> boosters, int curr, vector<int
         // recur on it if there is one
         for (auto n = boosters.begin(); n != boosters.end(); n++){
             if (n->from == i){
-                std::vector<int> tmp(path);  // quick copy 
+                // quick copy to keep using path in later versions
+                std::vector<int> tmp(path);
                 tmp.push_back(n->to);
                 check.push_back(jumpMsHelper(arr, boosters, n->to, tmp));
             }
@@ -110,7 +120,7 @@ vector<int> jumpMsHelper(int arr, vector<Booster> boosters, int curr, vector<int
  * (1 -> 5 -> 10 -> 14 -> 15)
  * Author's note: 1 -> 3 -> 8 -> 12 -> 15 is also valid
  * @param  arr the length of the array for it
- * @param booster an array of Booster objects 
+ * @param booster an array of Booster objects. 
  * @return the minimum number of jumps to the end
  */
 int jumpMS(int arr, vector<Booster> boosters){
